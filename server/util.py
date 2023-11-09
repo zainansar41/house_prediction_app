@@ -31,7 +31,7 @@ def get_estimated_price(location, numberOfBedrooms, houseSize, propertyType, cit
             warnings.simplefilter("ignore")
             predicted = __model.predict([x])[0]
             print(predicted)
-            return predicted
+            return abs(predicted)
     except Exception as e:
         print(f"Error predicting price: {e}")
         return None
