@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Form, Modal } from "react-bootstrap";
 import "./home.css";
 
-// ... (existing imports)
+import axios from "axios";
 
 const Home = () => {
   const [selectedCity, setSelectedCity] = useState("Islamabad");
@@ -11,6 +11,8 @@ const Home = () => {
   const [numberOfBedrooms, setNumberOfBedrooms] = useState("");
   const [dataColumns, setDataColumns] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState("");
+  const [predictedPrice, setPredictedPrice] = useState(null); // State to store predicted price
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Dynamically import JSON data based on the selected city
@@ -42,7 +44,7 @@ const Home = () => {
     setNumberOfBedrooms(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Divide houseSize by 20 and store in formData
@@ -51,12 +53,27 @@ const Home = () => {
     const formData = {
       city: selectedCity,
       propertyType: selectedPropertyType,
-      houseSize: adjustedHouseSize, // Store the adjusted houseSize
+      houseSize: adjustedHouseSize,
       numberOfBedrooms,
       location: selectedLocation,
     };
 
     console.log("Form data:", formData);
+    try {
+      // Make a POST request to the Flask server
+      const response = await axios.post(
+        "http://localhost:4000/toPredictPrice",
+        formData
+      );
+
+      // Update the predicted price in the state
+      setPredictedPrice(response.data.predicted_price);
+
+      // Show the modal
+      setShowModal(true);
+    } catch (error) {
+      console.log("Full error response:", error.response);
+    }
   };
 
   return (
@@ -109,7 +126,14 @@ const Home = () => {
                     value={selectedPropertyType}
                     onChange={handlePropertyTypeChange}
                   >
-                    {["Apartment", "House", "Plot"].map((propertyType) => (
+                    {[
+                      "Flat",
+                      "House",
+                      "Penthouse",
+                      "Farm House",
+                      "Lower Portion",
+                      "Upper Portion",
+                    ].map((propertyType) => (
                       <option key={propertyType} value={propertyType}>
                         {propertyType}
                       </option>
@@ -143,6 +167,20 @@ const Home = () => {
           </Card>
         </Col>
       </Row>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Predicted Price</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>The predicted price is: {predictedPrice}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
