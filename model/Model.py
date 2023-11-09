@@ -19,6 +19,8 @@ data_new = data_new[data_new['bedrooms'] != 0]
 #if location is less than 50 replace the location with others
 data_new['location'] = np.where(data_new['location'].isin(location_less_than_50.index), 'Others', data_new['location'])
 
+data_new['location'] = data_new['location'].str.lower()
+
 dummies = pd.get_dummies(data_new['location'])
 new_data = pd.concat([data_new, dummies], axis='columns')
 
@@ -91,21 +93,10 @@ def predict_price(property_type,City,area,bedrooms,location):
         x[loc_index] = 1
 
     return model.predict([x])[0]
-# print(int(predict_price(1,4,.5,3,'Others')))
+print(int(predict_price(1,4,.5,3,'others')))
 
 
 
 
 
 
-import pickle
-
-with open('zameen_price_model.pickle','wb') as f:
-    pickle.dump(model,f)
-
-import json
-columns = {
-    'data_columns' : [col.lower() for col in X.columns]
-}
-with open("columns.json","w") as f:
-    f.write(json.dumps(columns))

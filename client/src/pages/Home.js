@@ -173,7 +173,7 @@ const Home = () => {
           <Modal.Title>Predicted Price</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>The predicted price is: {predictedPrice}</p>
+          <p>The predicted price is: <h3>{predictedPrice}</h3></p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
