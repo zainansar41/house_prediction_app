@@ -99,4 +99,3 @@ print(int(predict_price(1,4,.5,3,'others')))
 
 
 
-
