@@ -18,7 +18,7 @@ def predict_price():
         data = request.json
         print(data)
 
-        property_mapping = {"Flat": 0, "House": 1, "Penthouse": 2, "Farm House": 3, "Lower Portion": 4, "Upper Portion": 5, "Room": 6}
+        property_mapping = {"Apartment": 0, "House": 1, "Penthouse": 2, "Farm House": 3, "Lower Portion": 4, "Upper Portion": 5, "Room": 6}
         city_mapping = {"Islamabad": 0, "Lahore": 1, "Faisalabad": 2, "Rawalpindi": 3, "Karachi": 4}
 
         selectedPropertyType = property_mapping.get(data.get("propertyType"), None)

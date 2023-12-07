@@ -28,6 +28,7 @@ def get_estimated_price(location, numberOfBedrooms, houseSize, propertyType, cit
 
     try:
         with warnings.catch_warnings():
+            print(x)
             warnings.simplefilter("ignore")
             predicted = __model.predict([x])[0]
             print(predicted)
