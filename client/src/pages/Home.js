@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button, Form, Modal } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Form,
+  Modal,
+} from "react-bootstrap";
 import "./home.css";
 
 import axios from "axios";
@@ -13,6 +21,8 @@ const Home = () => {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [predictedPrice, setPredictedPrice] = useState(null); // State to store predicted price
   const [showModal, setShowModal] = useState(false);
+  // const [showModal2, setShowModal2] = useState(false);
+  const [predictedPriceAnn, setPredictedPriceAnn] = useState(null);
 
   useEffect(() => {
     // Dynamically import JSON data based on the selected city
@@ -66,14 +76,20 @@ const Home = () => {
         formData
       );
 
-      // Update the predicted price in the state
-      setPredictedPrice(response.data.predicted_price);
+      // Update the predicted prices in the state
+      setPredictedPrice(response.data.predicted_price_linear_reg);
+        setPredictedPriceAnn(response.data.predicted_price_ann);
+        console.log("Response:", response);
 
       // Show the modal
       setShowModal(true);
     } catch (error) {
       console.log("Full error response:", error.response);
     }
+    console.log("Predicted price:", predictedPrice);
+    console.log("Predicted price:", predictedPriceAnn);
+    
+
   };
 
   return (
@@ -127,7 +143,7 @@ const Home = () => {
                     onChange={handlePropertyTypeChange}
                   >
                     {[
-                      "Flat",
+                      "Apartment",
                       "House",
                       "Penthouse",
                       "Farm House",
@@ -163,6 +179,7 @@ const Home = () => {
                   Predict Price
                 </Button>
               </Form>
+              
             </Card.Body>
           </Card>
         </Col>
@@ -170,10 +187,15 @@ const Home = () => {
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Predicted Price</Modal.Title>
+          <Modal.Title>Predicted Prices</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>The predicted price is: <h3>{predictedPrice}</h3></p>
+          <p>
+            Linear Regression Predicted Price: <h3>{predictedPrice}</h3>
+          </p>
+          <p>
+            ANN Predicted Price: <h3>{predictedPriceAnn}</h3>
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>

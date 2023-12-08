@@ -40,6 +40,8 @@
   .btn-primary {
     background-color: #007bff;
     border: none;
+    margin-right: 10px;
+    margin-bottom: 10px;
     &:hover {
       background-color: #0056b3;
     }

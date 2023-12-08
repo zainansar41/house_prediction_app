@@ -3,7 +3,7 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 
 
-data = pd.read_csv('C:\\Users\\Hp\\Desktop\\zameen-property-data.csv')
+data = pd.read_csv('C:\\Users\\Ayan\\Documents\\udemy ml and ds course\\ML Assignments\\Documents\\house_prediction_app\\model\\housing.csv')
 data = data.drop(columns=['Unnamed: 4', 'Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12'])
 
 data_new = data.dropna()
@@ -94,6 +94,10 @@ def predict_price(property_type,City,area,bedrooms,location):
 
     return model.predict([x])[0]
 print(int(predict_price(1,4,.5,3,'others')))
+
+
+  
+ 
 
 
 
