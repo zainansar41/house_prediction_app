@@ -31,6 +31,7 @@ const Home = () => {
         `../data/${selectedCity.toLowerCase()}.json`
       );
       setDataColumns(cityData.data_columns);
+      setSelectedLocation(cityData.data_columns[0]);
     };
 
     fetchData();
@@ -39,7 +40,7 @@ const Home = () => {
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
     // Update selected location based on the selected city
-    setSelectedLocation("");
+    setSelectedLocation(dataColumns[0]);
   };
 
   const handlePropertyTypeChange = (event) => {
@@ -72,7 +73,7 @@ const Home = () => {
     try {
       // Make a POST request to the Flask server
       const response = await axios.post(
-        "http://localhost:4000/toPredictPrice",
+        "http://localhost:4000/toPredictPrice", 
         formData
       );
 
@@ -163,6 +164,7 @@ const Home = () => {
                     type="number"
                     value={houseSize}
                     onChange={handleHouseSizeChange}
+                    required
                   />
                 </Form.Group>
 
@@ -172,6 +174,7 @@ const Home = () => {
                     type="number"
                     value={numberOfBedrooms}
                     onChange={handleNumberOfBedroomsChange}
+                    required
                   />
                 </Form.Group>
 

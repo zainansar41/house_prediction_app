@@ -6,7 +6,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
 # Load the dataset
-data = pd.read_csv('C:\\Users\\Ayan\\Documents\\udemy ml and ds course\\ML Assignments\\Documents\\house_prediction_app\\model\\housing.csv')
+data = pd.read_csv('D:/Github/house_prediction_app/model/housing.csv')
 data = data.drop(columns=['Unnamed: 4', 'Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12'])
 
 data_new = data.dropna()
@@ -118,5 +118,12 @@ predicted_price = predict_price_ann(1, 4, 0.5, 3, 'others')
 print(f'Predicted Price: {int(predicted_price)}')
 
 import pickle
-with open('zameen_price_model_ann.pickle','wb') as f:
-    pickle.dump(model_ann,f)
+
+# Save the model and scaler to pickle files
+model_and_scaler_data = {
+    'model': model_ann,
+    'scaler': scaler
+}
+
+with open('zameen_price_model_and_scaler_ann.pickle', 'wb') as file:
+    pickle.dump(model_and_scaler_data, file)
